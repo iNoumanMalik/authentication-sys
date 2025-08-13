@@ -1,14 +1,19 @@
-import './App.css'
-import Register from './components/register'
+import "./App.css";
+import Home from "./pages/Home";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
-  
   return (
-    <div className='bg-[#8be2e9] min-h-screen flex justify-center items-center'>
-    {/* <h1  className=''>Authentication System</h1> */}
-    <Register/>
-    </div>
-  )
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;
