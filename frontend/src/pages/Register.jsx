@@ -1,18 +1,26 @@
 import React from "react";
 import side_photo from "../assets/bg1.jpg";
 import icon_google from "../assets/icon-google.svg"
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Register() {
+  const [show,setShow] = useState(false);
+
   const navigate = useNavigate();
 
   const handleLoginClick = () => {
     navigate("/login");
   };
+
+  
+  useEffect(()=>{
+    setShow(true)
+  },[])
+
   return (
     <div className="bg-[#8be2e9] min-h-screen flex justify-center items-center">
-      <div className="flex flex-row justify-center items-center max-w-full mx-12 rounded-4xl shadow-2xl transition p-4 bg-white min-w-[60%]">
+      <div className={`flex flex-row justify-center items-center max-w-full mx-12 rounded-4xl shadow-2xl transform transition-all duration-500 ease-out p-4 bg-white min-w-[60%] ${show? 'translate-x-0 opacity-100':'translate-x-5 opacity-0'}`}>
         <div className="min-w-[50%] flex flex-col justify-center items-center">
           <div className="flex flex-col space-y-8  w-[80%]">
             <h2 className="text-3xl text-center">Create your account</h2>

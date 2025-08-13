@@ -1,18 +1,23 @@
-import React from "react";
-import sidephoto from "../assets/bg2.jpg";
+import React, { useEffect, useState } from "react";
+import side_photo from "../assets/bg2.jpg";
 import { useNavigate } from "react-router-dom";
 
 
 function Login() {
+  const [show,setShow] = useState(false);
   const navigate = useNavigate();
 
   const handleRegisterClick = () => {
     navigate("/register");
   };
 
+  useEffect(()=>{
+    setShow(true)
+  },[])
+
   return (
     <div className="bg-[#e3a8ae] min-h-screen flex justify-center items-center">
-      <div className="flex flex-row justify-center items-center max-w-full mx-12 rounded-4xl shadow-2xl transition p-4 bg-white min-w-[60%]">
+      <div className={`flex flex-row justify-center items-center max-w-full mx-12 rounded-4xl shadow-2xl transform transition-all duration-500 ease-out p-4 bg-white min-w-[60%] ${show? 'translate-x-0 opacity-100':'translate-x-5 opacity-0'}`}>
         <div className="min-w-[50%] flex flex-col justify-center items-center">
           <div className="flex flex-col space-y-8  w-[80%]">
             <h2 className="text-3xl text-center">Welcome back!</h2>
@@ -47,7 +52,7 @@ function Login() {
           </div>
         </div>
         <div className="h-[600px] w-[600px] min-w-[50%]">
-          <img src={sidephoto} className="w-full h-full rounded-2xl" />
+          <img src={side_photo} className="w-full h-full rounded-2xl" />
         </div>
       </div>
     </div>
