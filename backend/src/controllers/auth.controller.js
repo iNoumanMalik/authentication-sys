@@ -2,6 +2,15 @@ import { User } from "../models/users.model";
 import { signAuthToken } from "../utils/jwt";
 import { sendMail } from "../utils/email";
 
+const setAuthCookie = (response, token) => {
+  response.cookie("token", token, {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: false, // set true in production with HTTPS
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+  });
+};
+
 export const register = async (req, res) => {
   const { name, email, password } = req.body;
   if (!name || !email || !password)
@@ -54,4 +63,15 @@ export const login = async (req, res) => {
   if (!ok) return res.status(401).json({ error: "Invalid Credentials" });
 
   const jwt = signAuthToken(user);
+  setAuthCookie(res, jwt);
+  res.json({
+    user: {
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      isVerified: user.isVerified,
+      role: user.role,
+      avatarUrl: user.avatarUrl,
+    },
+  });
 };
