@@ -1,6 +1,7 @@
 import { User } from "../models/users.model";
 import { signAuthToken } from "../utils/jwt";
 import { sendMail } from "../utils/email";
+import { consumeOneTimeToken } from "../utils/token";
 
 const setAuthCookie = (response, token) => {
   response.cookie("token", token, {
@@ -44,7 +45,7 @@ export const verifyEmail = async (req, res) => {
   const { token } = req.query;
   if (!token) return res.status(400).json({ error: "Token missing" });
 
-  const consumed = await createOneTimeToken(token, "verify");
+  const consumed = await consumeOneTimeToken(token, "verify");
   if (!consumed)
     return res.status(400).json({ error: "Invalid or Expired token!" });
   await User.findByIdAndUpdate(consumed.user._id, { $set: { isVerified } });
@@ -75,3 +76,9 @@ export const login = async (req, res) => {
     },
   });
 };
+
+
+export const logout = async(req,res)=>{
+  res.clearCookies('token');
+  res.json({message: 'Logged out'})
+}
