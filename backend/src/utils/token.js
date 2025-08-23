@@ -25,3 +25,8 @@ export const consumeOneTimeToken = async (raw, type) => {
 
   return token;
 };
+
+
+export const deleteUserTokens = async (userId, type)=>{
+  await Token.deleteMany({userId,type});
+}
