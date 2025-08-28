@@ -5,7 +5,7 @@ import {
   createOneTimeToken,
   consumeOneTimeToken,
   deleteUserTokens,
-} from "../utils/token";
+} from "../utils/token.js";
 
 const setAuthCookie = (response, token) => {
   response.cookie("token", token, {
@@ -52,7 +52,7 @@ export const verifyEmail = async (req, res) => {
   const consumed = await consumeOneTimeToken(token, "verify"); // returns token
   if (!consumed)
     return res.status(400).json({ error: "Invalid or Expired token!" });
-  await User.findByIdAndUpdate(consumed.user._id, { $set: { isVerified } });
+  await User.findByIdAndUpdate(consumed.userId, { $set: { isVerified: true } });
   res.json({ message: "Email Verified" });
 };
 
@@ -82,7 +82,7 @@ export const login = async (req, res) => {
 };
 
 export const logout = async (req, res) => {
-  res.clearCookies("token");
+  res.clearCookie("token");
   res.json({ message: "Logged out" });
 };
 
@@ -113,7 +113,7 @@ export const forgetPassword = async (req, res) => {
   const user = await User.findOne({ email });
   if (user) {
     await deleteUserTokens(user.id, "reset");
-    const raw = createOneTimeToken(user.id, "reset", "60");
+    const raw = createOneTimeToken(user.id, "reset", 60);
     const resetUrl = `${process.env.CLIENT_URL}/reset-password?token=${raw}`;
     await sendMail({
       to: email,
