@@ -1,4 +1,4 @@
-import { User } from "../models/users.model";
+import { User } from "../models/users.model.js";
 
 export const listUsers = async (_req,res)=>{
     const users = await User.find().select('-passwordHash')

@@ -1,6 +1,6 @@
-import { User } from "../models/users.model";
-import { signAuthToken } from "../utils/jwt";
-import { sendMail } from "../utils/email";
+import { User } from "../models/users.model.js";
+import { signAuthToken } from "../utils/jwt.js";
+import { sendMail } from "../utils/email.js";
 import {
   createOneTimeToken,
   consumeOneTimeToken,

@@ -1,4 +1,4 @@
-import { User } from "../models/users.model";
+import { User } from "../models/users.model.js";
 import multer from "multer";
 import path from "path";
 import { fileURLToPath } from "url";

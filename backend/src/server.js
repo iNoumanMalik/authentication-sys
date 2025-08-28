@@ -4,10 +4,10 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 import helmet from 'helmet';
-import authRoutes from "./routes/auth.routes";
+import authRoutes from "./routes/auth.routes.js";
 import path from 'path'
 import { fileURLToPath } from 'url';
-import { connectDB } from './db/db';
+import { connectDB } from './db/db.js';
 
 const PORT = process.env.PORT || 8000;
 const app = express();

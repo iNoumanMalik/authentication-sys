@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import { Token } from "../models/token.model";
+import { Token } from "../models/token.model.js";
 const TOKEN_BYTES = 32;
 
 export const createOneTimeToken = async ({ userId, type, ttlMinutes }) => {

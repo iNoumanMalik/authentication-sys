@@ -1,6 +1,6 @@
 import 'dotenv/config'
-import { User } from "../models/users.model";
-import connectDB from '../db/db'
+import { User } from "../models/users.model.js";
+import connectDB from '../db/db.js'
 
 await connectDB();
 const adminEmail = 'admin@authflow.test'
