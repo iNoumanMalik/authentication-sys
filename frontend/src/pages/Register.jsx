@@ -19,7 +19,7 @@ function Register() {
   const navigate = useNavigate();
 
   const handleLoginClick = () => {
-    navigate("/login");
+    navigate("/");
   };
 
   const handleChange = (e) => {
