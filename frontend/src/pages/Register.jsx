@@ -11,6 +11,7 @@ function Register() {
   const [confirmPass, setConfirmPass] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
+  const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [form, setForm] = useState({
     name: "",
@@ -39,9 +40,10 @@ function Register() {
   const onSubmit = async() =>{
     try {
       const res = await axios.post('http://localhost:8000/api/auth/register',form)
-      console.log(res.data)
-    } catch (error) {
-      setError(error.response?.data?.error || 'Registration Failed')
+      setMessage(res.data?.message);
+      console.log(res.data?.message)
+    } catch (err) {
+      setError(err.response?.data?.error || 'Registration Failed')
     }
     
   }
@@ -138,6 +140,7 @@ function Register() {
                 </div>
               </label>
               {error && <p className="text-red-500 text-sm">{error}</p>}
+              {message && <p>{message}</p>}
               <button
                 type="Submit"
                 className={`bg-black text-white my-2 ${

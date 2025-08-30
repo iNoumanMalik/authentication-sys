@@ -29,14 +29,14 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const data = await axios.post("http://localhost:8000/api/auth/login", form, {
+      const res = await axios.post("http://localhost:8000/api/auth/login", form, {
         withCredentials: true,
       }); // withCredentials will let us accept cookies
-      setUser(data.user);
-      console.log(data.user)
+      setUser(res.user);
+      console.log(res.user)
       if(user) return navigate("/profile")
-    } catch (e) {
-      setError(e.response?.data?.error || "Login Failed");
+    } catch (err) {
+      setError(err.response?.data?.error || "Login Failed");
     }
   };
 

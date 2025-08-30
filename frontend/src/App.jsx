@@ -6,8 +6,9 @@ import ProfileLogout from "./pages/Profile/ProfileLogout";
 import ProfileDashboard from "./pages/profile/ProfileDashboard";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import VerifyEmail from "./pages/VerifyEmail";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { AuthProvider } from "../context/AuthContext"; // water tank needs to be one and should be at location through where each room(component) can get benefit
+import { AuthProvider } from "./context/AuthContext"; // water tank needs to be one and should be at location through where each room(component) can get benefit
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="logout" element={<ProfileLogout />} />
           </Route>
           <Route path="/register" element={<Register />} />
+          <Route path="/verify-email/:token" element={<VerifyEmail />} />
           <Route path="/" element={<Login />} />
         </Routes>
       </Router>
