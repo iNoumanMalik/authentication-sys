@@ -32,12 +32,23 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-userSchema.methods.setPassword = async (password) => {
+// -> arrow functions do not bind their own this
+
+// userSchema.methods.setPassword = async (password) => {
+//   this.passwordHash = await bcrypt.hash(password, 12);
+// };
+
+// userSchema.methods.comparePassword = (password) => {
+//   return bcrypt.compare(password, this.passwordHash);
+// };
+
+userSchema.methods.setPassword = async function (password) {
   this.passwordHash = await bcrypt.hash(password, 12);
 };
 
-userSchema.methods.comparePassword = (password) => {
+userSchema.methods.comparePassword = async function (password) {
   return bcrypt.compare(password, this.passwordHash);
 };
+
 
 export const User = mongoose.model("User", userSchema);

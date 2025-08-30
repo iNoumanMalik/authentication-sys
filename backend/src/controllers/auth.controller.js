@@ -35,7 +35,7 @@ export const register = async (req, res) => {
   const raw = createOneTimeToken(user._id, "verify", 60);
   const verifyUrl = `${process.env.CLIENT_URL}/verify-email/${raw}`;
 
-  sendMail({
+  const info =  await sendMail({
     to: email,
     subject: "Verification Required",
     html: `<p>Hello ${user.name},</p>
