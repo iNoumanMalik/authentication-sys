@@ -15,7 +15,7 @@ function Login() {
     email: "",
     password: "",
   });
-  const {setUser} = useContext(AuthContext)
+  const {user,setUser} = useContext(AuthContext)
   const navigate = useNavigate();
 
   const handleRegisterClick = () => {
@@ -32,9 +32,9 @@ function Login() {
       const res = await axios.post("http://localhost:8000/api/auth/login", form, {
         withCredentials: true,
       }); // withCredentials will let us accept cookies
-      setUser(res.data.user);
+      await setUser(res.data.user);
       console.log(res.data.user)
-      if(user) return navigate("/profile")
+      navigate("/profile/info")
     } catch (err) {
       setError(err.response?.data?.error || "Login Failed");
     }

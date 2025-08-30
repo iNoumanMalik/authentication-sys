@@ -1,14 +1,18 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 import { Outlet } from "react-router-dom";
-import { useContext } from "react";
+import { useContext,useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 function Profile() {
   const {user} = useContext(AuthContext)
+  console.log(user);
   const navigate = useNavigate();
 
-  if(!user) return navigate('/login');
+  useEffect(()=>{
+  if(!user) navigate('/login');
+  },[user,navigate])
+
   return (
     <div className="bg-gray-200 flex">
       <Navbar />

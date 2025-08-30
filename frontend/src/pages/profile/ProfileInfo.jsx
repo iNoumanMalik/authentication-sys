@@ -1,11 +1,8 @@
-// const user = {
-//     name: "Jon Snow",
-//     email: "jon@test.com",
-//     joined: "14-April-2025",
-//     role: "Admin",
-//   };
+import { useOutletContext } from "react-router-dom";
   
-  export default function ProfileInfo({user}) {
+  export default function ProfileInfo() {
+    const user = useOutletContext();
+    console.log(user)
     return (
       <div className="flex flex-col sm:flex-row items-center sm:items-start w-full">
         {/* Left Side - Profile Photo */}
@@ -35,7 +32,7 @@
             <p>
               <span className="font-medium">Joined:</span> {user.joined}
             </p>
-            <p>
+            <p className="capitalize">
               <span className="font-medium">Role:</span> {user.role}
             </p>
           </div>
