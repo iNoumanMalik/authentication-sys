@@ -5,8 +5,8 @@ const TOKEN_BYTES = 32;
 export const createOneTimeToken = async ({ userId, type, ttlMinutes }) => {
   const raw = crypto.randomBytes(TOKEN_BYTES).toString("hex");
   const tokenHash = crypto.createHash("sha256").update(raw).digest("hex");
-  const time = new Date(Date.now() + ttlMinutes * 60 * 1000);
-  const expiresAt = Number(time)
+  const expiresAt = new Date(Date.now() + ttlMinutes * 60 * 1000);
+  // const expiresAt = Number(time)
 
   await Token.create({ userId, tokenHash, type, expiresAt });
   return raw;

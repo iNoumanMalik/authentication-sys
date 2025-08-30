@@ -32,7 +32,7 @@ export const register = async (req, res) => {
   await user.save();
 
   // Email verification link (valid 60 min)
-  const raw = createOneTimeToken(user._id, "verify", 60);
+  const raw = await createOneTimeToken({userId:user._id,type: "verify",ttlMinutes: 60});
   const verifyUrl = `${process.env.CLIENT_URL}/verify-email/${raw}`;
 
   const info =  await sendMail({

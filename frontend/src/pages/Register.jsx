@@ -137,7 +137,7 @@ function Register() {
                   )}
                 </div>
               </label>
-              <p className="text-red-500 text-xs">{error}</p>
+              {error && <p className="text-red-500 text-sm">{error}</p>}
               <button
                 type="Submit"
                 className={`bg-black text-white my-2 ${
@@ -154,7 +154,6 @@ function Register() {
                 Already have an account?
               </a>
             </form>
-            {error && <p className="text-red-500">{error}</p>}
           </div>
         </div>
         <div className="h-[600px] w-[600px] min-w-[50%]">
