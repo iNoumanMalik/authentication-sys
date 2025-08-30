@@ -32,8 +32,8 @@ function Login() {
       const res = await axios.post("http://localhost:8000/api/auth/login", form, {
         withCredentials: true,
       }); // withCredentials will let us accept cookies
-      setUser(res.user);
-      console.log(res.user)
+      setUser(res.data.user);
+      console.log(res.data.user)
       if(user) return navigate("/profile")
     } catch (err) {
       setError(err.response?.data?.error || "Login Failed");

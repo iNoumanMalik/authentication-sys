@@ -49,7 +49,6 @@ function Register() {
         form
       );
       setMessage(res.data?.message);
-      console.log(res.data?.message);
     } catch (err) {
       setError(err.response?.data?.error || "Registration Failed");
     } finally {

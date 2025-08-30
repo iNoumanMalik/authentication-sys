@@ -32,11 +32,8 @@ function VerifyEmail() {
         `http://localhost:8000/api/auth/verify?token=${token}`
       );
       setMessage(res.data?.message);
-      console.log(res.data.message);
     } catch (err) {
       setError(err.response?.data?.error);
-      console.log(err.response?.data?.error);
-      console.log(error);
     }
   };
 
