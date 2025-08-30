@@ -14,7 +14,10 @@ const app = express();
 
 await connectDB();
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true
+  }));
 app.use(cookieParser()) // helps your server (not the browser) by making cookies easily accessible.
 app.use(morgan('dev')) // logs every request hitting your server, helps in debugging
 app.use(helmet()) // every incoming request passes through it. Sets HTTP headers to protect against common attacks

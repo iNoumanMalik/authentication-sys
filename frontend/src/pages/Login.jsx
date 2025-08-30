@@ -29,7 +29,7 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const data = await axios("http://localhost:8000/api/auth/login", form, {
+      const data = await axios.post("http://localhost:8000/api/auth/login", form, {
         withCredentials: true,
       }); // withCredentials will let us accept cookies
       setUser(data.user);

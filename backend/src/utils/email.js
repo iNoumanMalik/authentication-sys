@@ -11,6 +11,14 @@ export const getTransporter = async () => {
     secure: false,  // true for 465, false for other ports
     auth: SMTP_USER ? {user:SMTP_USER,pass:SMTP_PASS}: undefined
   });
+  transporter.verify((error, success) => {
+    if (error) {
+      console.error("SMTP Error:", error);
+    } else {
+      console.log("✅ SMTP Connected:", success);
+    }
+  });
+  
   return transporter;
 };
 

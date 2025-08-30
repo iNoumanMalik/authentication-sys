@@ -37,7 +37,13 @@ function Register() {
   };
   
   const onSubmit = async() =>{
-    await axios.post('http://localhost:8000/api/auth/register',form)
+    try {
+      const res = await axios.post('http://localhost:8000/api/auth/register',form)
+      console.log(res.data)
+    } catch (error) {
+      setError(error.response?.data?.error || 'Registration Failed')
+    }
+    
   }
 
   useEffect(() => {
@@ -148,6 +154,7 @@ function Register() {
                 Already have an account?
               </a>
             </form>
+            {error && <p className="text-red-500">{error}</p>}
           </div>
         </div>
         <div className="h-[600px] w-[600px] min-w-[50%]">

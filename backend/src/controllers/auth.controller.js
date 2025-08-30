@@ -42,6 +42,7 @@ export const register = async (req, res) => {
     <p>Click to verify your account:</p>
     <p><a href="${verifyUrl}">${verifyUrl}</a></p>`,
   });
+  console.log(email,info,verifyUrl);
   res.status(201).json({ message: "Registered. Check email to verify." });
 };
 
