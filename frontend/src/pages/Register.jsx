@@ -13,6 +13,7 @@ function Register() {
   const [showConfirmPass, setShowConfirmPass] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [animate, setAnimate] = useState(false);
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -26,6 +27,7 @@ function Register() {
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+    setError("");
   };
 
   const handlePasswordMatch = () => {
@@ -36,17 +38,24 @@ function Register() {
       setError("");
     }
   };
-  
-  const onSubmit = async() =>{
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    setMessage("");
+    setAnimate(true);
     try {
-      const res = await axios.post('http://localhost:8000/api/auth/register',form)
+      const res = await axios.post(
+        "http://localhost:8000/api/auth/register",
+        form
+      );
       setMessage(res.data?.message);
-      console.log(res.data?.message)
+      console.log(res.data?.message);
     } catch (err) {
-      setError(err.response?.data?.error || 'Registration Failed')
+      setError(err.response?.data?.error || "Registration Failed");
+    } finally {
+      setAnimate(false);
     }
-    
-  }
+  };
 
   useEffect(() => {
     handlePasswordMatch();
@@ -139,16 +148,23 @@ function Register() {
                   )}
                 </div>
               </label>
-              {error && <p className="text-red-500 text-sm">{error}</p>}
-              {message && <p>{message}</p>}
+              {error ? (
+                <p className="text-red-500 text-sm">{error}</p>
+              ) : message ? (
+                <p className="text-green-500 text-sm">{message}</p>
+              ) : null}
               <button
                 type="Submit"
-                className={`bg-black text-white my-2 ${
+                className={`bg-black text-white flex justify-center items-center my-2 ${
                   error ? "opacity-50  cursor-not-allowed" : "cursor-pointer"
                 }`}
                 disabled={Boolean(error)}
               >
-                Create Account
+                {animate ? (
+                  <div className=" w-8 h-8 border-4 border-white rounded-full border-t-transparent animate-spin"></div>
+                ) : (
+                  "Create Account"
+                )}
               </button>
               <a
                 onClick={handleLoginClick}
