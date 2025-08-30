@@ -7,21 +7,24 @@ import ProfileDashboard from "./pages/profile/ProfileDashboard";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "../context/AuthContext"; // water tank needs to be one and should be at location through where each room(component) can get benefit
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/profile" element={<Profile/>}>
-        <Route path="dashboard" element={<ProfileDashboard />}/>
-        <Route path="info" element={<ProfileInfo />}/>
-        <Route path="settings" element={<ProfileSettings />}/>
-        <Route path="logout" element={<ProfileLogout />}/>
-        </Route>
-        <Route path="/register" element={<Register />} />
-        <Route path="/" element={<Login />} />
-      </Routes>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/profile" element={<Profile />}>
+            <Route path="dashboard" element={<ProfileDashboard />} />
+            <Route path="info" element={<ProfileInfo />} />
+            <Route path="settings" element={<ProfileSettings />} />
+            <Route path="logout" element={<ProfileLogout />} />
+          </Route>
+          <Route path="/register" element={<Register />} />
+          <Route path="/" element={<Login />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 

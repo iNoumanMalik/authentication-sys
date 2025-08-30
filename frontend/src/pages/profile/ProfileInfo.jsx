@@ -1,11 +1,11 @@
-const user = {
-    name: "Jon Snow",
-    email: "jon@test.com",
-    joined: "14-April-2025",
-    role: "Admin",
-  };
+// const user = {
+//     name: "Jon Snow",
+//     email: "jon@test.com",
+//     joined: "14-April-2025",
+//     role: "Admin",
+//   };
   
-  export default function ProfileInfo() {
+  export default function ProfileInfo({user}) {
     return (
       <div className="flex flex-col sm:flex-row items-center sm:items-start w-full">
         {/* Left Side - Profile Photo */}

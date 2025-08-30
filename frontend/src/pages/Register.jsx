@@ -4,6 +4,7 @@ import side_photo from "../assets/bg1.jpg";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import axios from "axios";
 
 function Register() {
   const [show, setShow] = useState(false);
@@ -34,6 +35,10 @@ function Register() {
       setError("");
     }
   };
+  
+  const onSubmit = async() =>{
+    await axios.post('http://localhost:8000/api/auth/register',form)
+  }
 
   useEffect(() => {
     handlePasswordMatch();
@@ -57,7 +62,7 @@ function Register() {
               <img src={icon_google} width={24}/>
               Sign in With Google
             </button> */}
-            <form className="flex flex-col">
+            <form className="flex flex-col" onSubmit={onSubmit}>
               <label className="flex flex-col text-start mb-4">
                 Name
                 <input
@@ -67,6 +72,7 @@ function Register() {
                   className="px-4 py-2 border-2 border-gray-300 rounded-lg mt-2"
                   value={form.name}
                   onChange={handleChange}
+                  required
                 />
               </label>
               <label className="flex flex-col text-start mb-4">
@@ -78,6 +84,7 @@ function Register() {
                   className="px-4 py-2 border-2 border-gray-300 rounded-lg mt-2"
                   value={form.email}
                   onChange={handleChange}
+                  required
                 />
               </label>
               <label className="flex flex-col text-start mb-4 relative">
@@ -86,15 +93,17 @@ function Register() {
                   <input
                     name="password"
                     placeholder="********"
-                    type={showPassword ? 'text':'password'}
+                    type={showPassword ? "text" : "password"}
                     className="px-4 py-2 border-2 border-gray-300 rounded-lg mt-2 w-full"
                     value={form.password}
                     onChange={handleChange}
+                    required
                   />
                   {form.password && (
                     <span
                       onClick={() => setShowPassword(!showPassword)}
                       className="absolute right-4 top-5 cursor-pointer"
+                      required
                     >
                       {showPassword ? <FaEye /> : <FaEyeSlash />}
                     </span>
@@ -107,7 +116,7 @@ function Register() {
                 <div className="relative">
                   <input
                     placeholder="********"
-                    type={showConfirmPass ? 'text':'password'}
+                    type={showConfirmPass ? "text" : "password"}
                     className="px-4 py-2 border-2 border-gray-300 rounded-lg mt-2 w-full"
                     value={confirmPass}
                     onChange={(e) => setConfirmPass(e.target.value)}
@@ -123,7 +132,13 @@ function Register() {
                 </div>
               </label>
               <p className="text-red-500 text-xs">{error}</p>
-              <button type="Submit" className={`bg-black text-white my-2 ${error? 'opacity-50  cursor-not-allowed':'cursor-pointer'}`} disabled={Boolean(error)}>
+              <button
+                type="Submit"
+                className={`bg-black text-white my-2 ${
+                  error ? "opacity-50  cursor-not-allowed" : "cursor-pointer"
+                }`}
+                disabled={Boolean(error)}
+              >
                 Create Account
               </button>
               <a

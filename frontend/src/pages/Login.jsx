@@ -3,14 +3,19 @@ import side_photo from "../assets/bg2.jpg";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import icon_google from "../assets/icon-google.svg";
+import axios from "axios";
+import { AuthContext } from "../../context/AuthContext";
+import { useContext } from "react";
 
 function Login() {
   const [show, setShow] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
   const [form, setForm] = useState({
     email: "",
     password: "",
   });
+  const {setUser} = useContext(AuthContext)
   const navigate = useNavigate();
 
   const handleRegisterClick = () => {
@@ -19,6 +24,20 @@ function Login() {
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const data = await axios("http://localhost:8000/api/auth/login", form, {
+        withCredentials: true,
+      }); // withCredentials will let us accept cookies
+      setUser(data.user);
+      console.log(data.user)
+      if(user) return navigate("/profile")
+    } catch (e) {
+      setError(e.response?.data?.error || "Login Failed");
+    }
   };
 
   useEffect(() => {
@@ -39,7 +58,7 @@ function Login() {
               <img src={icon_google} width={24} />
               Sign in With Google
             </button>
-            <form className="flex flex-col">
+            <form onSubmit={handleSubmit} className="flex flex-col">
               <label className="flex flex-col text-start mb-4">
                 Email
                 <input
@@ -49,6 +68,7 @@ function Login() {
                   className="px-4 py-2 border-2 border-gray-300 rounded-lg mt-2"
                   value={form.email}
                   onChange={handleChange}
+                  required
                 />
               </label>
               <label className="flex flex-col text-start mb-4">
@@ -57,10 +77,11 @@ function Login() {
                   <input
                     name="password"
                     placeholder="********"
-                    type={showPassword?'text':'password'}
+                    type={showPassword ? "text" : "password"}
                     className="px-4 py-2 border-2 border-gray-300 rounded-lg mt-2 w-full"
                     value={form.password}
                     onChange={handleChange}
+                    required
                   />
                   {form.password && (
                     <span
@@ -72,6 +93,7 @@ function Login() {
                   )}
                 </div>
               </label>
+              {error && <p className="text-red-500">{error}</p>}
               <button type="Submit" className="bg-black text-white my-2">
                 Login to your account
               </button>
