@@ -1,8 +1,8 @@
 import "./App.css";
 import Profile from "./pages/Profile";
-import ProfileInfo from "./pages/Profile/ProfileInfo";
-import ProfileSettings from "./pages/Profile/ProfileSettings";
-import ProfileLogout from "./pages/Profile/ProfileLogout";
+import ProfileInfo from "./pages/profile/ProfileInfo";
+import ProfileSettings from "./pages/profile/ProfileSettings";
+import ProfileLogout from "./pages/profile/ProfileLogout";
 import ProfileDashboard from "./pages/profile/ProfileDashboard";
 import Register from "./pages/Register";
 import Login from "./pages/Login";

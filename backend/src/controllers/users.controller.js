@@ -27,7 +27,7 @@ export const updateProfile = async (req, res) => {
   const update = {};
   if (name) update.name = name;
   if (req.file) update.avatarUrl = `uploads/${req.file.filename}`;
-  const user = await User.findOneAndUpdate(req.user.uid, update, {
+  const user = await User.findOneAndUpdate({ _id: req.user.uid }, update, {
     new: true,
   }).select("-passwordHash");
   res.json({ user });

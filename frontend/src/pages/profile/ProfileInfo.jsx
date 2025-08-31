@@ -42,7 +42,7 @@ export default function ProfileInfo() {
           </p>
           <p>
             <span className="font-medium">Joined:</span>{" "}
-            {user?.joined ? user.joined.split("T")[0] : "-"}
+            {user?.createdAt ? user.createdAt.split("T")[0] : "-"}
           </p>
         </div>
       </div>

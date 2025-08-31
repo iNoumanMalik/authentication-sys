@@ -1,33 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaEdit, FaSave, FaCamera } from "react-icons/fa";
+import { useOutletContext } from "react-router-dom";
+import axios from "axios";
 
 export default function ProfileSettings() {
-  const [user, setUser] = useState({
-    picture: "https://via.placeholder.com/150", // Mock picture
-    name: "Jon Snow",
-    password: "********",
+  const user = useOutletContext();
+  const [form, setForm] = useState({
+    name: user.name || "",
+    avatarUrl: user.avatarUrl || "",
   });
-
-  const [editingField, setEditingField] = useState(null);
-  const [tempValue, setTempValue] = useState("");
-  const [tempImage, setTempImage] = useState(null);
-
-  // Password popup state
   const [showPasswordPopup, setShowPasswordPopup] = useState(false);
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [editingField, setEditingField] = useState(null);
+  const [error, setError] = useState("");
 
   const handleEditClick = (field) => {
     if (field === "password") {
       setShowPasswordPopup(true);
-      return;
+    } else {
+      setEditingField(field);
     }
-    setEditingField(field);
-    setTempValue(user[field]);
   };
 
   const handleSaveClick = () => {
-    setUser({ ...user, [editingField]: tempValue });
+    console.log("Saving profile:", form);
     setEditingField(null);
   };
 
@@ -35,18 +32,28 @@ export default function ProfileSettings() {
     const file = e.target.files[0];
     if (file) {
       const previewURL = URL.createObjectURL(file);
-      setTempImage(previewURL);
-      setUser({ ...user, picture: previewURL });
+      setForm((prev) => ({ ...prev, avatarUrl: previewURL }));
     }
+    console.log("Saving profile:", form);
+
   };
 
   const handlePasswordSave = () => {
-    // Normally you'd validate current password via backend
     if (currentPassword && newPassword) {
-      setUser({ ...user, password: "********" }); // Mask password
+      console.log("Password change:", { currentPassword, newPassword });
       setCurrentPassword("");
       setNewPassword("");
       setShowPasswordPopup(false);
+    }
+  };
+
+  const updateProfile = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post("http://localhost:8000/api/user/me", form);
+      console.log(res.data.user);
+    } catch (err) {
+      setError(err.response?.data?.error);
     }
   };
 
@@ -58,7 +65,7 @@ export default function ProfileSettings() {
       <div className="flex flex-col items-center">
         <div className="relative w-32 h-32">
           <img
-            src={tempImage || user.picture}
+            src={form.avatarUrl}
             alt="Profile"
             className="w-32 h-32 rounded-full object-cover border"
           />
@@ -80,48 +87,59 @@ export default function ProfileSettings() {
       </div>
 
       {/* Editable Fields */}
-      {["name", "password"].map((field) => (
-        <div
-          key={field}
-          className="flex justify-between items-center border-b pb-3 mx-60"
-        >
-          <div>
-            <strong className="capitalize">{field}:</strong>{" "}
-            {editingField === field ? (
-              <input
-                type="text"
-                value={tempValue}
-                onChange={(e) => setTempValue(e.target.value)}
-                className="border px-2 py-1 rounded ml-2"
-              />
-            ) : (
-              <span className="ml-2">
-                {field === "password" ? "********" : user[field]}
-              </span>
-            )}
-          </div>
-
-          {editingField === field ? (
-            <button
-              className="text-green-600 hover:text-green-800"
-              onClick={handleSaveClick}
-            >
-              <FaSave />
-            </button>
+      <div className="flex justify-between items-center border-b pb-3 mx-60">
+        <div>
+          <strong>Name:</strong>{" "}
+          {editingField === "name" ? (
+            <input
+              type="text"
+              value={form.name}
+              onChange={(e) => setForm({ ...form, name: e.target.value })}
+              className="border px-2 py-1 rounded ml-2"
+            />
           ) : (
-            <button
-              className="text-blue-600 hover:text-blue-800"
-              onClick={() => handleEditClick(field)}
-            >
-              <FaEdit />
-            </button>
+            <span className="ml-2">{form.name}</span>
           )}
         </div>
-      ))}
+
+        {editingField === "name" ? (
+          <button
+            className="text-green-600 hover:text-green-800"
+            onClick={handleSaveClick}
+          >
+            <FaSave />
+          </button>
+        ) : (
+          <button
+            className="text-blue-600 hover:text-blue-800"
+            onClick={() => handleEditClick("name")}
+          >
+            <FaEdit />
+          </button>
+        )}
+      </div>
+
+      {/* Password */}
+      <div className="flex justify-between items-center border-b pb-3 mx-60">
+        <div>
+          <strong>Password:</strong> <span className="ml-2">********</span>
+        </div>
+        <button
+          className="text-blue-600 hover:text-blue-800"
+          onClick={() => handleEditClick("password")}
+        >
+          <FaEdit />
+        </button>
+      </div>
+
+      <div className="flex justify-between items-center mx-60">
+      {error && <p className="text-red-500">{error}</p>}
+        <button onClick={updateProfile} className="bg-blue-500 text-white w-30 hover:bg-blue-400">Save</button>
+      </div>
+
 
       {/* Password Change Popup */}
       {showPasswordPopup && (
-        
         <div className="fixed inset-0 flex items-center justify-center bg-opacity-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-96">
             <h3 className="text-lg font-bold mb-4">Change Password</h3>
