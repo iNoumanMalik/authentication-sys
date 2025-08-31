@@ -50,12 +50,29 @@ export default function ProfileSettings() {
   const updateProfile = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:8000/api/user/me", form);
+      const formData = new FormData();
+      formData.append("name",form.name);
+      formData.append("avatarUrl",form.avatarUrl)
+
+      const res = await axios.post("http://localhost:8000/api/user/me", formData, {
+        withCredentials: true,
+      });
       console.log(res.data.user);
+      setUser(res.data.user);
     } catch (err) {
       setError(err.response?.data?.error);
     }
   };
+
+  
+  useEffect(() => {
+    if (user) {
+      setForm({
+        name: user.name || "",
+        avatarUrl: user.avatarUrl || "",
+      });
+    }
+  }, [user]);
 
   return (
     <div className="w-full p-20 bg-white rounded-lg shadow space-y-6">
@@ -133,10 +150,14 @@ export default function ProfileSettings() {
       </div>
 
       <div className="flex justify-between items-center mx-60">
-      {error && <p className="text-red-500">{error}</p>}
-        <button onClick={updateProfile} className="bg-blue-500 text-white w-30 hover:bg-blue-400">Save</button>
+        {error && <p className="text-red-500">{error}</p>}
+        <button
+          onClick={updateProfile}
+          className="bg-blue-500 text-white w-30 hover:bg-blue-400"
+        >
+          Save
+        </button>
       </div>
-
 
       {/* Password Change Popup */}
       {showPasswordPopup && (

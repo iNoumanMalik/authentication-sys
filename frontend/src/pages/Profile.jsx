@@ -5,7 +5,7 @@ import { useContext,useEffect } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 function Profile() {
-  const {user} = useContext(AuthContext)
+  const {user,setUser} = useContext(AuthContext)
   console.log(user);
   const navigate = useNavigate();
 
