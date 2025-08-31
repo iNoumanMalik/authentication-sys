@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import authRoutes from "./routes/auth.routes.js";
+import userRoutes from "./routes/user.routes.js"
 import path from 'path'
 import { fileURLToPath } from 'url';
 import { connectDB } from './db/db.js';
@@ -27,6 +28,7 @@ const __dirname = path.dirname(__filename);
 app.use('/uploads',express.static(path.join(__dirname,'uploads'))); // if the route matches /uploads folder find it in this static address
 
 app.use('/api/auth',authRoutes);
+app.use('/api/user',userRoutes);
 
 app.use((err,_req,res,_next)=>{
     console.log(err)

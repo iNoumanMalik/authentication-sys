@@ -8,7 +8,9 @@ export default function ProfileInfo() {
       {/* Left Side - Profile Photo */}
       <div className="flex flex-col items-center w-full sm:w-1/2 mb-6 sm:mb-0">
         <img
-          src="https://ui-avatars.com/api/?name=Jon+Snow&background=random&size=150"
+          src={`https://ui-avatars.com/api/?name=${encodeURIComponent(
+            user.name
+          )}&background=random&size=150`}
           alt="Profile"
           className="w-32 h-32 rounded-full object-cover border-2 border-gray-300 mb-4"
         />
@@ -39,7 +41,8 @@ export default function ProfileInfo() {
             {user.isVerified ? "Verified" : "Not Verified"}
           </p>
           <p>
-            <span className="font-medium">Joined:</span> {user.joined.split("T")[0]}
+            <span className="font-medium">Joined:</span>{" "}
+            {user?.joined ? user.joined.split("T")[0] : "-"}
           </p>
         </div>
       </div>
